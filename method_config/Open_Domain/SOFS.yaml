@@ -1,0 +1,95 @@
+OUTPUT_DIR:
+  './log_FsSS_Open_Domain'
+
+DATASET:
+  name: 'opendomain_test_dataset_ND'
+  image_size: 518
+  mask_size: 518
+  unified_mask_size: 4500
+  rotate_min: -10
+  rotate_max: 10
+
+  area_resize_ratio: 0.01
+  crop_size: 259
+  crop_ratio: [ 1.0, 1.0 ]
+
+  test_sample_repeated_multiple: 1
+  few_shot_repeated_multiple: 1
+  shot: 1
+  s_in_shot: 4
+
+  split: 0
+
+  vision_data_save: False
+  vision_data_save_path: "/usr/sdc/zzl/vision_data_total"
+  vision_data_load: True
+
+  normal_sample_sampling_prob: 0.3
+
+  open_domain_test_object: ["severstal_steel"]
+  open_domain_object_category_num: [1]
+  open_domain_specific_defect_category: [0]
+
+TRAIN:
+  enable: False
+  save_model: False
+  method: 'SOFS'
+  dataset_path: './Open_Domain_Data'
+
+  backbone: 'dinov2_vitb14'
+  backbone_load_state_dict: True
+  backbone_checkpoint: '/home/zzl/desktop/2023/ss_as/dinov2_vitb14_pretrain.pth'
+
+  load_checkpoint: False
+  load_model_path: "./"
+
+  SOFS:
+    prior_layer_pointer: [5, 6, 7, 8, 9, 10]
+    target_semantic_temperature: 0.1
+    reduce_dim: 256
+    transformer_embed_dim: 256
+
+    transformer_num_stages: 2
+    transformer_nums_heads: 4
+
+    meta_cls: True
+    normal_sim_aug: True
+
+    conv_vit_down_sampling: True
+    vit_patch_size: 14
+
+    smooth_r: 1e5
+
+  LOSS:
+    dice_weight: 1.
+    ce_weight: 0.01
+
+TRAIN_SETUPS:
+  batch_size: 4
+  num_workers: 4
+  learning_rate: 1e-5
+  optimizer_momentum: 0.9
+  epochs: 50
+  weight_decay: 0.01
+
+  poly_training: True
+  lr_multiple: 2.
+
+  TEST_SETUPS:
+    test_state: False
+    epoch_test: 50
+    train_miou: 50
+
+TEST:
+  enable: True
+  method: 'SOFS'
+  dataset_path: './Open_Domain_Data'
+  load_checkpoint: True
+  load_model_path: "./log_FsSS_IVI_VISION_V1_ND_SOFS_200/checkpoints/SOFS_model.pth"
+
+  VISUALIZE:
+    save_figure: True
+    sample_prob: 1.
+
+TEST_SETUPS:
+  batch_size: 1

@@ -1,7 +1,21 @@
 # Small Object Few-shot Segmentation for Vision-based Industrial Inspection
 
+This is an official PyTorch implementation of the paper [Small Object Few-shot Segmentation for Vision-based Industrial Inspection](https://arxiv.org/abs/2407.21351).
+```
+@article{zhang2024small,
+  title={Small Object Few-shot Segmentation for Vision-based Industrial Inspection},
+  author={Zhang, Zilong and Niu, Chang and Zhao, Zhibin and Zhang, Xingwu and Chen, Xuefeng},
+  journal={arXiv preprint arXiv:2407.21351},
+  year={2024}
+}
+```
+
 <p align="center">
-  <img src=assets/SOFS.jpg width="70%">
+  <img src=assets/paradigm.png width="100%">
+</p>
+
+<p align="center">
+  <img src=assets/SOFS.jpg width="100%">
 </p>
 
 We present SOFS to solve problems that various and sufficient defects are difficult to obtain and anomaly detection cannot detect specific defects in Vision-based Industrial Inspection. 
@@ -10,27 +24,68 @@ SOFS can segment the small defects conditioned on the support sets, e.g., it seg
 Some visualizations are shown in the figure below.
 
 <p align="center">
-  <img src=assets/vis1.jpg width="70%">
-</p>
-
-## **More Visualizations**
-<p align="center">
-  <img src=assets/more_vis.jpg width="100%">
+  <img src=assets/vis.jpg width="100%">
 </p>
 
 ## **Visualizations under Open Domain**
 - We show the visualizations of SOFS for [Severstal: Steel Defect Detection](https://www.kaggle.com/competitions/severstal-steel-defect-detection/overview) under the open domain, where SOFS is trained on VISION V1.
 <p align="center">
-  <img src=assets/steel.png width="50%">
+  <img src=assets/steel.png width="70%">
 </p>
 
+### Installation
+1. The default python version is python 3.8.
+2. Follow the installation of [DINO v2](https://github.com/facebookresearch/dinov2), such as xFormers.
+3. Use the following commands:
+```
+pip install -r requirements.txt
+```
+
+### Train and test on VISION V1 dataset
+- Please download [VISION V1 dataset](https://huggingface.co/datasets/VISION-Workshop/VISION-Datasets), the corresponding reference is at [here](https://arxiv.org/abs/2306.07890).
+- Then run the following code:
+
+```
+sh train.sh
+```
+
+- The model trains in each train split and test in the corresponding test split. The result is at the ./log.
+
+## **Inference**
+- We provide the model trained on VISION V1 and code for SOFS inference (open-domain test). You can put your own data for open-domain test.
+- Please download SOFS model at [here](https://drive.google.com/file/d/1sI9varMvniDBxjxBwlWpLpMvTj5j0D_B/view?usp=sharing) (Google Drive) and place it at "./SOFS_model.pth".
+
+## **Prepare for Your Own Data**
+- You can refer to the data format in severstal_steel of Open_Domain_Data. The data in severstal_steel are from [Severstal: Steel Defect Detection](https://www.kaggle.com/competitions/severstal-steel-defect-detection/overview). Our training data do not contain this data, thus this is an open-domain test.
+- Your own data should be organized as follows:
+
+```
+|-- Your Own Data (object name)
+    |-- support
+        |-- image
+        |-- mask
+    |-- query
+        |-- image
+```
+
+- support contains image fold and mask fold, each image in mask fold contains {0, 255}, 255 indicates the target semantic. image fold in query contains the test image.
+
+### Test on your own dataset
+- You should replace "severstal_steel" with your own object in DATASET.open_domain_test_object of "./method_config/Open_Domain/SOFS.yaml".
+- Then run the following code:
+
+```
+sh test.sh
+```
+
 ## To-Do List
-- [ ] Task 1: Release inference code and model (open-domain test).
-- [ ] Task 2: Release inference for a mixture of defective support samples and normal support samples.
-- [ ] Task 3: Release training and test code for different datasets.
+- [x] Task 1: Release inference code and model (open-domain test).
+- [x] Task 2: Release training and test code for different datasets (part).
+- [ ] Task 3: Release inference for a mixture of defective support samples and normal support samples.
 - [ ] Task 4: Release online tools.
 
-**We will release the code before October 2024.**
+## Acknowledgement
+We acknowledge the excellent implementation from [DINO v2](https://github.com/facebookresearch/dinov2), [HDMNet](https://github.com/Pbihao/HDMNet).
 
 ## License
 The code is released under the CC BY-NC-SA 4.0 license.
