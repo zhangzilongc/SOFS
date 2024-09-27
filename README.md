@@ -42,14 +42,19 @@ pip install -r requirements.txt
 ```
 
 ### Train and test on VISION V1 dataset
-- Please download [VISION V1 dataset](https://huggingface.co/datasets/VISION-Workshop/VISION-Datasets), the corresponding reference is at [here](https://arxiv.org/abs/2306.07890).
+- Pretrained model prepare: please download DINO v2 ViT-B/14 distilled (without registers) pre-trained model in [DINO v2](https://github.com/facebookresearch/dinov2).
+- Dataset prepare: please download [VISION V1 dataset](https://huggingface.co/datasets/VISION-Workshop/VISION-Datasets), the corresponding reference is at [here](https://arxiv.org/abs/2306.07890).
+- Replace TRAIN.dataset_path and TEST.dataset_path with your own VISION V1 dataset path.
+- Replace TRAIN.backbone_checkpoint with the path of pre-trained DINO v2 ViT-B/14 distilled.
+- Prepare an empty folder, replace DATASET.vision_data_save_path with the corresponding path.
 - Then run the following code:
 
 ```
-sh train.sh
+bash train.sh
 ```
 
 - The model trains in each train split and test in the corresponding test split. The result is at the ./log.
+- After you run the above command for the first time, replace DATASET.vision_data_save with False and replace DATASET.vision_data_load with True.
 
 ## **Inference**
 - We provide the model trained on VISION V1 and code for SOFS inference (open-domain test). You can put your own data for open-domain test.
@@ -70,7 +75,7 @@ sh train.sh
 
 - support contains image fold and mask fold, each image in mask fold contains {0, 255}, 255 indicates the target semantic. image fold in query contains the test image.
 
-### Test on your own dataset
+### Test on your own dataset (Unfinished)
 - You should replace "severstal_steel" with your own object in DATASET.open_domain_test_object of "./method_config/Open_Domain/SOFS.yaml".
 - Then run the following code:
 

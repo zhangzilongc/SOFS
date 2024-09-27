@@ -21,7 +21,7 @@ DATASET:
   split: 0
 
   vision_data_save: True
-  vision_data_save_path: "/usr/sdc/zzl/vision_data"
+  vision_data_save_path: "/usr/sdc/zzl/vision_data_new"
   vision_data_load: False
 
   normal_sample_sampling_prob: 0.3

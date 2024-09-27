@@ -7,13 +7,10 @@ import traceback
 from utils import init_distributed_training, is_master_proc, seed_everything, \
     freeze_paras, get_datasets, setup_logging
 
-from model.SegGPT.model_seggpt import prepare_model
-
 from model.SOFS import SOFS
 
 from tools.epoch_train_eval_ss import epoch_validate_ss, epoch_validate_non_resize_ss
 from tools.open_domain_eval import opendomain_eval
-from tools.contest_eval import eccv_contest_eval
 
 import matplotlib
 
@@ -117,9 +114,7 @@ def test(cfg):
                         num_workers=cfg.TRAIN_SETUPS.num_workers, pin_memory=True)
 
                 LOGGER.info("load model!")
-                if cfg.TEST.method == "SegGPT":
-                    model = prepare_model()
-                elif cfg.TEST.method == "SOFS":
+                if cfg.TEST.method == "SOFS":
                     model = SOFS(cfg=cfg)
                 else:
                     raise NotImplementedError("test method is not in the target list!")
