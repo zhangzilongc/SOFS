@@ -1,8 +1,8 @@
 OUTPUT_DIR:
-  './log_FsSS_Open_Domain'
+  './log_FsSS_IVI'
 
 DATASET:
-  name: 'opendomain_test_dataset_ND'
+  name: 'VISION_V1_ND'
   image_size: 518
   mask_size: 518
   unified_mask_size: 4500
@@ -10,7 +10,7 @@ DATASET:
   rotate_max: 10
 
   area_resize_ratio: 0.01
-  crop_size: 259
+  crop_size: 518
   crop_ratio: [ 1.0, 1.0 ]
 
   test_sample_repeated_multiple: 1
@@ -26,15 +26,11 @@ DATASET:
 
   normal_sample_sampling_prob: 0.3
 
-  open_domain_test_object: ["severstal_steel"]
-  open_domain_object_category_num: [1]
-  open_domain_specific_defect_category: [0]
-
 TRAIN:
-  enable: False
+  enable: True
   save_model: False
   method: 'SOFS'
-  dataset_path: './Open_Domain_Data'
+  dataset_path: '/usr/sdd/zzl_data/defect_detection/vision_dataset'
 
   backbone: 'dinov2_vitb14'
   backbone_load_state_dict: True
@@ -76,20 +72,22 @@ TRAIN_SETUPS:
   lr_multiple: 2.
 
   TEST_SETUPS:
-    test_state: False
+    test_state: True
     epoch_test: 50
     train_miou: 50
+    val_state: True
 
 TEST:
-  enable: True
+  enable: False
   method: 'SOFS'
-  dataset_path: './Open_Domain_Data'
-  load_checkpoint: True
-  load_model_path: "./SOFS_model.pth"
+  dataset_path: '/usr/sdd/zzl_data/defect_detection/vision_dataset'
+  load_checkpoint: False
+  load_model_path: "./save_model"
 
   VISUALIZE:
-    save_figure: True
-    sample_prob: 1.
+    save_figure: False
+    sample_prob: 0.2
 
 TEST_SETUPS:
   batch_size: 1
+  ND_batch_size: 4

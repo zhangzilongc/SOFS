@@ -41,10 +41,12 @@ Some visualizations are shown in the figure below.
 pip install -r requirements.txt
 ```
 
-### Train and test on VISION V1 dataset
+### Train and test on VISION V1 dataset or Ds spectrum
 - Pretrained model prepare: please download DINO v2 ViT-B/14 distilled (without registers) pre-trained model in [DINO v2](https://github.com/facebookresearch/dinov2).
 - Dataset prepare: please download [VISION V1 dataset](https://huggingface.co/datasets/VISION-Workshop/VISION-Datasets), the corresponding reference is at [here](https://arxiv.org/abs/2306.07890).
-- Replace TRAIN.dataset_path and TEST.dataset_path with your own VISION V1 dataset path.
+- Dataset prepare: please download [Ds spectrum dataset](https://envision-research.github.io/Defect_Spectrum/), the corresponding reference is at [here](https://arxiv.org/abs/2310.17316).
+- Replace TRAIN.dataset_path and TEST.dataset_path with your own VISION V1/Ds spectrum dataset path.
+- For Ds spectrum dataset, please firstly replace the file name in VISION v1 of Ds spectrum dataset with Capacitor_VISION/Ring_VISION..., then put these folders together including the name in dataset split.
 - Replace TRAIN.backbone_checkpoint with the path of pre-trained DINO v2 ViT-B/14 distilled.
 - Prepare an empty folder, replace DATASET.vision_data_save_path with the corresponding path.
 - Then run the following code:
@@ -60,7 +62,7 @@ bash train.sh
 - We provide the model trained on VISION V1 and code for SOFS inference (open-domain test). You can put your own data for open-domain test.
 - Please download SOFS model at [here](https://drive.google.com/file/d/1sI9varMvniDBxjxBwlWpLpMvTj5j0D_B/view?usp=sharing) (Google Drive) and place it at "./SOFS_model.pth".
 
-## **Prepare for Your Own Data**
+### **Prepare for Your Own Data**
 - You can refer to the data format in severstal_steel of Open_Domain_Data. The data in severstal_steel are from [Severstal: Steel Defect Detection](https://www.kaggle.com/competitions/severstal-steel-defect-detection/overview). Our training data do not contain this data, thus this is an open-domain test.
 - Your own data should be organized as follows:
 
@@ -75,7 +77,7 @@ bash train.sh
 
 - support contains image fold and mask fold, each image in mask fold contains {0, 255}, 255 indicates the target semantic. image fold in query contains the test image.
 
-### Test on your own dataset (Unfinished)
+### Test on your own dataset
 - You should replace "severstal_steel" with your own object in DATASET.open_domain_test_object of "./method_config/Open_Domain/SOFS.yaml".
 - Then run the following code:
 

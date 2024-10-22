@@ -139,7 +139,9 @@ class OpenDomain_Test_ND(BASE_DATASET_FSSS_ND):
             input_image, mask_defect, defect_status = self.support_mode_generate_image_mask(
                 tmp_filename=each_support_sample,
                 tmp_object=query_object,
-                tmp_category=specific_defect
+                tmp_category=specific_defect,
+                defect_generation_state=False,
+                tmp_defect_mode=None
             )
             support_image_list.append(input_image)
             support_mask_list.append(mask_defect)
@@ -265,53 +267,6 @@ class OpenDomain_Test_ND(BASE_DATASET_FSSS_ND):
 
         return input_image, torch.as_tensor(original_img_shape), torch.as_tensor(crop_img_shape), \
                torch.as_tensor(input_image_shape), img_position_list
-
-    # def get_basic_element(self, init_dir, category_num_list):
-    #     object_category_filename = {}
-    #     object_filename = {}
-    #     object_category_filename_list = []
-    #
-    #     for idx, tmp_path in enumerate(init_dir):
-    #         filename_segmentation_category = {}
-    #
-    #         tmp_object = tmp_path.split("/")[-1]
-    #         support_path = os.path.join(tmp_path, "support", "image")
-    #         mask_path = os.path.join(tmp_path, "support", "mask")
-    #
-    #         image_path = glob(support_path+"/*.jpg")
-    #         image_path += glob(support_path+"/*.png")
-    #
-    #         for temp_image in image_path:
-    #             image_save_name = "/".join(temp_image.split("/")[-3:])
-    #             temp_dict = {}
-    #
-    #             image_name = temp_image.split("/")[-1].split(".")[0]
-    #             temp_mask = os.path.join(mask_path, image_name+"_mask.png")
-    #             mask_label = np.array(PIL_Image.open(temp_mask))
-    #             label_list = list(np.unique(mask_label))
-    #             temp_dict["category_sum"] = len(label_list) - 1
-    #             temp_dict["seg"] = []
-    #             temp_dict["category"] = []
-    #
-    #             for label in label_list:
-    #                 if label != 0:
-    #                     temp_dict["seg"].append(mask_label == label)
-    #                     temp_dict["category"].append(label - 1)
-    #
-    #             filename_segmentation_category[image_save_name] = temp_dict
-    #
-    #         object_filename[tmp_object] = filename_segmentation_category
-    #
-    #         category_filename = generate_category_filename(category_num_list[idx],
-    #                                                        filename_segmentation_category)
-    #
-    #         object_category_filename[tmp_object] = category_filename
-    #
-    #         for category, filename in category_filename.items():
-    #             for tmp_filename in filename:
-    #                 object_category_filename_list.append("^".join([tmp_object, str(category), tmp_filename]))
-    #
-    #     return object_filename, object_category_filename, object_category_filename_list
 
     def get_basic_element(self, init_dir, category_num_list):
         object_category_filename = {}
