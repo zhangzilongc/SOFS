@@ -1,3 +1,5 @@
+
+
 # Small Object Few-shot Segmentation for Vision-based Industrial Inspection
 
 This is an official PyTorch implementation of the paper [Small Object Few-shot Segmentation for Vision-based Industrial Inspection](https://arxiv.org/abs/2407.21351).
@@ -75,7 +77,7 @@ bash train.sh
         |-- image
 ```
 
-- support contains image fold and mask fold, each image in mask fold contains {0, 255}, 255 indicates the target semantic. image fold in query contains the test image.
+- support contains image folder and mask folder, each image in mask folder contains {0, 255}, 255 indicates the target semantic. The image folder in query contains the test images.
 
 ### Test on your own dataset
 - You should replace "severstal_steel" with your own object in DATASET.open_domain_test_object of "./method_config/Open_Domain/SOFS.yaml".
